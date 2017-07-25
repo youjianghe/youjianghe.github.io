@@ -1,0 +1,40 @@
+
+*{font-family: 'Microsoft Yahei', sans-serif;}
+ul{padding: 0;}
+ul li{list-style: none;}
+body{margin: 0;padding: 0;background-color: #E8E8E8;}
+header{height: 60px;width: 100%;background-color: #555555;}
+header h1{margin: 0;line-height: 60px;height: 60px; float: left;background: url(../img/badiu_logo.png) no-repeat left;background-size: 80%;}
+header ul{float: right;padding:0 15px;}
+header ul li{float: left;margin-left: 20px;}
+header ul li a{text-decoration: none;color: #ffffff;}
+
+.article{margin: 30px;padding: 30px 15px; background-color: #ffffff;box-shadow:3px 3px 1px 1px #BBBBBB;border: 1px solid #D6D3D3; }
+.article h3{font-weight: 700;font-size: 23px;margin:15px 0;}
+.article h4{font-weight: 700;font-size: 17px;color: #555555;margin:10px 0;}
+.article .info{font-weight:500;font-size: 15px;color: #555555;margin:5px 0;}
+.article .content{text-indent: 2em;line-height: 2;}
+.article img{max-width: 100%;width: 300px;height: 200px;}
+
+.article .pic{width: 330px;padding-left: 60px;}
+.article .pic li{padding: 15px;padding-top: 0;margin-top: 15px; border: 1px solid #555555;}
+.article .pic li div{text-align: center;line-height: 60px;}
+
+.last-article .content{text-indent: 0;}
+.last-article .content ol{font-weight: 700;color: #000000;}
+.last-article .content table{width: 100%;border-collapse: collapse;}
+.last-article .content table tr:first-child{background-color:#000000;color: #ffffff;}
+.last-article .content table tr th{text-align: left;border: 1px solid #CCC8C8;width: 25%;}
+.last-article .content table tr td{border: 1px solid #CCC8C8;width: 25%;}
+.last-article .content table tr:last-child{border: none;background-color: #CCC8C8;font-weight: 700;}
+.last-article .content table tr:last-child td{border: none;}
+
+.sidebar{}
+.sidebar h3{padding-left:15px;border-left: 5px solid #CCC8C8;line-height: 40px; }
+.sidebar form .group{width: 100%;overflow: hidden;}
+.sidebar form .group .title{width: 30%;float: left;text-align: right;font-weight: 500;font-size: 16px;margin:5px 0;}
+.sidebar form .group .item{width: 70%;float: left;margin:5px 0;font-size: 16px;}
+.sidebar form .group .item p{margin:5px 0;font-size: 14px;color: #CCC8C8}
+.sidebar form #submit{width: 96%;margin:0 2%;padding:0;border:none;border-radius:4px; height: 40px;background-color: #155CF4;}
+
+.copy{background-color: #000000;color:#ffffff;line-height: 60px;text-align: center;margin-top: 30px;}

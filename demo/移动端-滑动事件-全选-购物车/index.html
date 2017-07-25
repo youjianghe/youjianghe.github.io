@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>滑动事件-全选-购物车demo</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/cart.css">
+	<script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="back">
+		<a href="javascript:history.go(-1);" class="left"><img src="img/arrow.png" alt=""/>返回</a>
+		<a href="" class="right"><img src="img/iconfont-gouwuche.png" alt=""><span>12</span></a>
+	</div>
+	<script>
+		(function($){
+			$().ready(function(){
+				//选中所有商品
+				var checkedall = document.getElementById('checked-all');//全选/反选按钮
+				var checkedallimg = document.getElementById('checked-all-img');//全选/反选图标
+				var truesrc = "img/iconfont-xuanzhong.png";
+				var falsesrc = "img/iconfont-iconkongxin.png";
+				var selfinput = $('input','.checked-self');
+				
+				function quanxuan(){//判断全选中or全不选中状态，并改变全选按钮，下面调用
+					var flag = true;
+					selfinput.each(function(){if(!this.checked){flag = false;}});
+					if(flag){checkedallimg.src=truesrc;checkedall.checked = true;}else{checkedallimg.src=falsesrc;checkedall.checked = false;}
+				}
+
+				selfinput.each(function(){if (this.checked) {this.src = truesrc;}});quanxuan();//解决页面载入时有选中情况????????
+				
+				//	全选监听事件
+				checkedall.addEventListener('click',checkedAll,false);
+				function checkedAll(event){
+					var checked = checkedall.checked;
+					console.log(checkedall.checked);
+					if (checked) {
+						checkedallimg.src=truesrc;
+						selfinput.prop('checked',true).next('img').prop('src',truesrc);//使所有项目选中
+					}else{
+						checkedallimg.src=falsesrc;
+						selfinput.prop('checked',false).next('img').prop('src',falsesrc);//使所有项目不选中
+					}
+				}
+
+				//单个商品勾选
+				//动态绑定 label和input。给input设置id值 checbox[i]
+				$('label','.checked-self').each(function(i){
+					$(this).prop('for','checkbox['+i+']')//给label添加for值
+					$(this).children('input').prop('id','checkbox['+i+']');//给input添加添加id值
+					console.log($(this).prop('for'));
+					console.log($(this).children('input').prop('id'));
+				});
+				//给每个项目添加监听事件
+				selfinput.each(function(){this.addEventListener('click',checkedSelf,false);})
+				function checkedSelf(event){
+					console.log($(this).next('img').prop('src'))
+					console.log(this.checked)
+					this.checked?$(this).next('img').prop('src',truesrc):$(this).next('img').prop('src',falsesrc);
+					quanxuan();//
+				}
+				
+				//左滑删除
+			
+					var mc = $('.slide-wrap','.cart-content .item');
+					var del = $('.del-order');
+					mc.each(function(){
+						this.addEventListener('touchstart',touchStart,false);
+						this.addEventListener('touchmove',touchMove,false);
+						this.addEventListener('touchend',touchEnd,false);
+					})
+					var startX,endX,starY,endY,lineY,lineX;
+
+					function whereClick(){//判断点击位置
+						var flag = true;
+						var idname = event.target.getAttribute('id')
+						if (idname=='jia'||idname=='buy_num'||idname=='jian') {flag = false;}else{flag = true;}
+						console.log(flag);
+						return flag;
+
+					}
+
+					function touchStart(event){
+						if (event.targetTouches.length == 1) {
+						  	var touch = event.targetTouches[0];
+						  	startX = touch.pageX;
+						  	startY = touch.pageY;
+						  	console.log(startX+'start');	
+						  }
+					}
+					function touchMove(event){
+						event.preventDefault();//阻止冒泡，解决微信滑动无效；若放在touchStart，则会导致其子元素的点击事件无法点击
+						if (event.targetTouches.length == 1) {
+						  	var touch = event.targetTouches[0];
+						  	endX = touch.pageX;
+						  	endY = touch.pageY;
+						  	console.log(endX+'Move');	
+						  }
+					}
+					function touchEnd(event){
+						if (!whereClick()) return false;//子元素被触碰时，不触发滑动事件
+						lineX = parseInt(startX-endX);
+						lineY = parseInt(Math.abs(startY-endY));
+						console.log(lineX+'end');	
+
+						if(lineX>15&&lineY<50){
+							mc.animate({'left':0},'fast').next('.del-order').animate({'right':"-42%"},'fast');
+							$(this).animate({"left":"-42%"},'slow').next('.del-order').animate({"right":"0%"},'slow');
+	
+						}
+						if(lineX<-15&&lineY<50){
+							$(this).animate({"left":"0"},'slow').next('.del-order').animate({"right":"-42%"},'slow');
+						}
+					}
+					//删除当前商品
+					//删除刷新又出现
+					$('.del-self').on('click',function(){
+						calc();$(this).closest('.choosegoods').remove();
+					})
+
+				//左滑删除end
+
+
+			});//ready结束标签
+		})(jQuery);
+	</script>
+	<div class="container-fluid cart-content">
+		<div class="row">
+			<h3 class="col-xs-12"> 
+				<input type="checkbox" class="form-control" id="checked-all">
+				<label for="checked-all">所有商品<img src="img/iconfont-iconkongxin.png" alt="" class="img-responsive" id="checked-all-img"></label>
+			</h3>
+			<form action="" method="post">
+			<div class="item col-xs-12"><!-- 循环item内容 -->
+				<div class="slide-wrap">
+				<div class="col-xs-1 checked-self"><label for=""><input type="checkbox" name="" id=""><img src="img/iconfont-iconkongxin.png" alt="" class="img-responsive"></label></div>
+				<div class="col-xs-4 item-pic"><a href=""><img src="img/good.png" alt="" class="img-responsive center-block"></a></div>
+				<div class="col-xs-7 item-info">
+					<div class="col-xs-12 item-title"><a href="">这是商品标题这是商品标题这是商品标题这商品标题这商品标题这是商品标题</a></div>
+					<div class="col-xs-12 item-other">
+						<span>￥199</span>
+						<div class="input-group">
+					      <div class="input-group-addon jianhao" id="jian" id="jian">-</div>
+					      <input type="text" class="form-control text-center" id="buy_num" placeholder="1">
+					      <div class="input-group-addon jiahao" id="jia" id="jia">+</div>
+					    </div>
+					</div>
+				</div>
+				</div>	
+				<!-- 左滑更多和删除 -->
+				<div class="del-order">
+					<a href="">更多</a>
+					<a href="javascript:void(0)" class="del-self">删除</a>
+				</div>			
+			</div>
+
+			<div class="item col-xs-12"><!-- 循环item内容 -->
+				<div class="slide-wrap">
+				<div class="col-xs-1 checked-self"><label for="checkbox[]"><input type="checkbox" name="" id=""><img src="img/iconfont-iconkongxin.png" alt="" class="img-responsive"></label></div>
+				<div class="col-xs-4 item-pic"><a href=""><img src="img/good.png" alt="" class="img-responsive center-block"></a></div>
+				<div class="col-xs-7 item-info">
+					<div class="col-xs-12 item-title"><a href="">这是商品标题这是商品标题这是商品标题这商品标题这商品标题这是商品标题</a></div>
+					<div class="col-xs-12 item-other">
+						<span>￥199</span>
+						<div class="input-group">
+					      <div class="input-group-addon jianhao" id="jian">-</div>
+					      <input type="text" class="form-control text-center" id="buy_num" placeholder="1">
+					      <div class="input-group-addon jiahao" id="jia">+</div>
+					    </div>
+					</div>
+				</div>
+				</div>
+
+				<!-- 左滑更多和删除 -->
+				<div class="del-order">
+					<a href="">更多</a>
+					<a href="javascript:void(0)" class="del-self">删除</a>
+				</div>	
+			</div><!-- item结束 -->
+			<div class="item col-xs-12"><!-- 循环item内容 -->
+				<div class="slide-wrap">
+				<div class="col-xs-1 checked-self"><label for="checkbox[]"><input type="checkbox" name="" id=""><img src="img/iconfont-iconkongxin.png" alt="" class="img-responsive"></label></div>
+				<div class="col-xs-4 item-pic"><a href=""><img src="img/good.png" alt="" class="img-responsive center-block"></a></div>
+				<div class="col-xs-7 item-info">
+					<div class="col-xs-12 item-title"><a href="">这是商品标题这是商品标题这是商品标题这商品标题这商品标题这是商品标题</a></div>
+					<div class="col-xs-12 item-other">
+						<span>￥199</span>
+						<div class="input-group">
+					      <div class="input-group-addon jianhao" id="jian">-</div>
+					      <input type="text" class="form-control text-center" id="buy_num" placeholder="1">
+					      <div class="input-group-addon jiahao" id="jia">+</div>
+					    </div>
+					</div>
+				</div>
+				</div>
+
+				<!-- 左滑更多和删除 -->
+				<div class="del-order">
+					<a href="">更多</a>
+					<a href="javascript:void(0)" class="del-self">删除</a>
+				</div>	
+			</div><!-- item结束 -->
+			<div class="item col-xs-12"><!-- 循环item内容 -->
+				<div class="slide-wrap">
+				<div class="col-xs-1 checked-self"><label for="checkbox[]"><input type="checkbox" name="" id=""><img src="img/iconfont-iconkongxin.png" alt="" class="img-responsive"></label></div>
+				<div class="col-xs-4 item-pic"><a href=""><img src="img/good.png" alt="" class="img-responsive center-block"></a></div>
+				<div class="col-xs-7 item-info">
+					<div class="col-xs-12 item-title"><a href="">这是商品标题这是商品标题这是商品标题这商品标题这商品标题这是商品标题</a></div>
+					<div class="col-xs-12 item-other">
+						<span>￥199</span>
+						<div class="input-group">
+					      <div class="input-group-addon jianhao" id="jian">-</div>
+					      <input type="text" class="form-control text-center" id="buy_num" placeholder="1">
+					      <div class="input-group-addon jiahao" id="jia">+</div>
+					    </div>
+					</div>
+				</div>
+				</div>
+
+				<!-- 左滑更多和删除 -->
+				<div class="del-order">
+					<a href="">更多</a>
+					<a href="javascript:void(0)" class="del-self">删除</a>
+				</div>	
+			</div><!-- item结束 -->
+			<div class="item col-xs-12"><!-- 循环item内容 -->
+				<div class="slide-wrap">
+				<div class="col-xs-1 checked-self"><label for="checkbox[]"><input type="checkbox" name="" id=""><img src="img/iconfont-iconkongxin.png" alt="" class="img-responsive"></label></div>
+				<div class="col-xs-4 item-pic"><a href=""><img src="img/good.png" alt="" class="img-responsive center-block"></a></div>
+				<div class="col-xs-7 item-info">
+					<div class="col-xs-12 item-title"><a href="">这是商品标题这是商品标题这是商品标题这商品标题这商品标题这是商品标题</a></div>
+					<div class="col-xs-12 item-other">
+						<span>￥199</span>
+						<div class="input-group">
+					      <div class="input-group-addon jianhao" id="jian">-</div>
+					      <input type="text" class="form-control text-center" id="buy_num" placeholder="1">
+					      <div class="input-group-addon jiahao" id="jia">+</div>
+					    </div>
+					</div>
+				</div>
+				</div>
+
+				<!-- 左滑更多和删除 -->
+				<div class="del-order">
+					<a href="">更多</a>
+					<a href="javascript:void(0)" class="del-self">删除</a>
+				</div>	
+			</div><!-- item结束 -->
+
+			</form>
+		</div><!-- row结束 -->
+	</div><!-- container-fluid结束 -->
+	<!-- 底部 撑开-->
+	<div style="height: 60px;width: 100%;"></div>
+    <div class="cart-footer">
+    	<div class="left">总金额：<span>¥199.00</span></div>
+    	<div class="right"><a href="" role="button" class="btn btn-default">去结算</a></div>
+    </div>
+</body>
+</html>

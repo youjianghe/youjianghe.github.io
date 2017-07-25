@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 20</title>
+	<style>
+		#box div{width: 20px;margin: 0 20px; display: inline-block;*display: inline;*zoom:1;}
+		#box div span{background-color: red;}
+	</style>
+</head>
+<body>
+	<textarea name="" id="text" cols="30" rows="10" placeholder="换行或空格区分字符"></textarea><br>
+	<button>加入</button>
+	<label><input type="text" id="key"><button id="search">查询</button></label>
+	<div id="box"></div>
+	<script>
+		window.onload = function() {
+			var text = document.getElementById('text');
+			var key = document.getElementById('key');
+			var search = document.getElementById('search');
+			var box = document.getElementById('box');
+			var btn = document.getElementsByTagName('button')[0];
+			var data = new Array();
+			btn.onclick = function(){
+				var tarr = text.value.split(/\s+/);
+				text.value = '';
+				for(var i = 0;i<tarr.length;i++){
+					if(tarr[i]!=''){data.push(tarr[i])} //去除空元素
+				}
+				console.log(data);
+				renderChart(data);
+			}
+
+			//图形绘制函数
+			function renderChart(arg){
+				var html="";
+				for(var i=0;i<arg.length;i++){
+					html+='<div>'+arg[i]+'</div>';
+				}
+				box.innerHTML = html;
+			}
+			//初始化一组数据
+			(function(){
+				data = ['hehe','haha','heihei','hello'];
+				renderChart(data);
+			})();
+			//查询点击事件
+			search.onclick=function(){
+				//var thisdata = data   这样将已知数组赋值给另一个数组，由于数组指向地址未变，改变一个数组，另一个也会改变，避免这种情况应该用clone
+				var thisdata = data.slice(0);
+				var k = key.value.replace(/\s+/g,'');
+				key.value = '';
+				if(k=='') return;
+				var re = new RegExp(k);
+				for(var i = 0;i<thisdata.length;i++){
+					if(thisdata[i].search(re)!=-1) {
+						var r = '<span>'+thisdata[i]+'</span>'
+						thisdata.splice(i,1,r);
+					}
+				}
+
+				renderChart(thisdata);
+			}
+		}//onload
+	</script>
+</body>
+</html>

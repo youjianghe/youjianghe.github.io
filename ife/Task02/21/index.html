@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 21</title>
+	<style>
+		#tagbox{height: 60px;width: 100%;}
+		#tagbox div,
+		#interestbox div{height: 30px;background-color: blue;color: #ffffff;float: left;padding: 10px;margin: 0 10px;}
+		#interestbox{height: 60px;width: 100%;}
+	</style>
+</head>
+<body>
+	<label for="">Tag <input type="text" id="tag"></label>
+	<div id="tagbox"></div>
+	<textarea name="" id="interset" cols="30" rows="6" placeholder="请使用回车间隔"></textarea><br>
+	<button id="btn">确认兴趣爱好</button>
+	<div id="interestbox"></div>
+
+	<script>
+	window.onload =function(){
+		var tbox = document.getElementById('tagbox');
+		var tag = document.getElementById('tag');
+		var interset = document.getElementById('interset');
+		var ibox = document.getElementById('interestbox');
+		var btn = document.getElementById('btn');
+		var tagdiv = tagbox.getElementsByTagName('div');
+		var tagdata = new Array();
+		var inData = new Array();
+
+
+		//爱好
+		btn.onclick = function(e){
+			var arrayData = interset.value.split(/\s+/) //使用回车匹配符（\r）无效？？
+			var arrdata = arrayData.concat(inData);
+			//interset.value='';
+			console.log(arrdata);
+			inData = sortData(arrdata);
+			//console.log(inData);
+			renderChart(inData,ibox);
+
+		}
+
+		//去重 trim
+		//
+		function sortData(data){  //空格问题怎么解决？？？
+		   
+		    for(var i=0;i<data.length;i++)
+		        for(var j=i+1;j<data.length;j++)
+		            if(data[i]===data[j]||data[i]==''){data.splice(j,1);j--;}                           
+		    return data;
+		}
+		// function sortData(data){
+		// 	var flag = true;
+		// 	if (!data) return;
+		// 	for(var i=0;i<data.length;i++){
+		// 		if(data[i]=='') continue //去除空格
+		// 		for(var j=data.length;j>i;j--){
+		// 			if(data[i]==data[j]){flag=false;}
+		// 		}
+		// 		if(flag){inData.push(data[i])}
+		// 	}
+		// 	console.log(inData);
+		// }
+		//tag.onkeypress=function (e) {	
+		// 若第一个输入的是，触发事件时无法获取逗号，同时与onkeyup和onkeydown的键值有些不一致
+		//}
+		tag.onkeyup = function(e){
+			console.log(e.keyCode);
+			var keynum = e.keyCode;
+			if(keynum==13||keynum==32||keynum==188){
+				var v = this.value.trim().replace(/\,/ ,'');
+				if(v == ','||v==''||tagdata.indexOf(v)!=-1){this.value='';return}
+				if(tagdata.length>=10){
+					tagdata.unshift(v);
+					tagdata.pop();
+				}else{
+					tagdata.unshift(v)
+				}
+				this.value='';
+				console.log(tagdata);
+				renderChart(tagdata,tbox);
+				divhover();
+				console.log(tagdiv.length);
+			}
+		}
+		function divhover(){
+			for(var i=0;i<tagdiv.length;i++){
+				var text;
+				tagdiv[i].onmouseover=function(e){
+					text = this.innerText
+					this.innerText ='点击删除'+' '+text
+				}
+				tagdiv[i].onmouseout=function(e){
+					this.innerText = text;
+				}
+				tagdiv[i].onclick = function(e){
+					var index = tagdata.indexOf(text);
+					if(index!=-1){tagdata.splice(index,1);}
+					renderChart(tagdata,tbox);
+					divhover();
+				}
+			}
+		}
+	
+		
+		//图形绘制函数
+		function renderChart(data,dom){
+			var html="";
+			for(var i=0;i<data.length;i++){
+				html+='<div>'+data[i]+'</div>';
+			}
+			dom.innerHTML = html;
+		}
+
+	}//onload
+		
+	</script>
+</body>
+</html>

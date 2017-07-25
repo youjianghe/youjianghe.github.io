@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>10:Flexbox 布局练习</title>
+	<style>
+	/* 关于Flex布局比较容易懂的参考资料：http://www.zhangxinxu.com/wordpress/2010/12/css-box-flex%E5%B1%9E%E6%80%A7%EF%BC%8C%E7%84%B6%E5%90%8E%E5%BC%B9%E6%80%A7%E7%9B%92%E5%AD%90%E6%A8%A1%E5%9E%8B%E7%AE%80%E4%BB%8B/
+		请注意Flex语法的变迁
+		******
+		子元素若定宽(width:150px)且设置flex:1,flex:row失效;两种方案可避免，原因未知，如下
+		*设置width：150px,但不设置flex属性
+		*不设置width：150px,但设置flex：0 0 150px(其实这个也定宽了)
+		******
+	 */
+	.flex{display: flex;display: -webkit-flex;align-items: center;flex-direction:row;-webkit-flex-wrap: wrap;flex-wrap: wrap;}
+	.item{margin: 20px;flex:0 0 150px; border: 1px solid red;float: left;}
+	.item:nth-child(1){height: 120px;}
+	.item:nth-child(2){height: 100px;}
+	.item:nth-child(3){height: 40px;}
+	.item:nth-child(4){height: 200px;border: 1px solid blue;}
+
+	 @media screen and (max-width: 640px){
+		.flex{align-items: flex-start;}
+		.item:nth-child(4){order:-1;}
+	 }
+	</style>
+</head>
+<body>
+	<h5>10:Flexbox 布局练习</h5>
+	<div class="flex">
+		<div class="item"></div>
+		<div class="item"></div>
+		<div class="item"></div>
+		<div class="item"></div>
+	</div>
+</body>
+</html>

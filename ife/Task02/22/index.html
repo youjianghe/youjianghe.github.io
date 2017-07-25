@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 22</title>
+	<style>
+	   *{box-sizing: border-box;}
+	  .box{width: 600px;height: 200px;border:1px solid #000;padding: 10px;background-color: #ffffff;}
+	  .box .l1,.box .r1,.l2,.r2,.l3,.r3{float: left;width: 48%; height: 100%; padding: 10px;border:1px solid #000;background-color: #ffffff;}
+	  .box .r1,.r2,.r3{float: right;background-color: #ffffff;}
+
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="l1 one">
+			<div class="l2 two">
+				<div class="l3 three"></div>
+				<div class="r3 three"></div>
+			</div>
+			<div class="r2 two">
+				<div class="l3 three"></div>
+				<div class="r3 three"></div>
+			</div>
+		</div>
+		<div class="r1 one">
+			<div class="l2 two">
+				<div class="l3 three"></div>
+				<div class="r3 three"></div>
+			</div>
+			<div class="r2 two">
+				<div class="l3 three"></div>
+				<div class="r3 three"></div>
+			</div>
+		</div>
+	</div>
+	<button type="button" id="f">前序遍历</button>
+	<button type="button" id="m">中序遍历</button>
+	<button type="button" id="a" >后序遍历</button>
+	<script>
+	window.onload = function(){
+		var box = document.getElementsByClassName('box')[0];
+		//先序遍历
+		var arr=[];
+		function preOrder(node){
+			if(node != null){
+				arr.push(node);
+				preOrder(node.firstElementChild);
+				preOrder(node.lastElementChild);
+			}
+		}	
+		//中序遍历
+		function inOrder(node){
+			if(node != null){
+				inOrder(node.firstElementChild);
+				arr.push(node);
+				inOrder(node.lastElementChild);
+			}
+		}	
+		//后序遍历
+		function postOrder(node){
+			if(node != null){
+				postOrder(node.firstElementChild);
+				postOrder(node.lastElementChild);
+				arr.push(node);
+			}
+		}
+
+		//背景变色
+		function  changeColor(arr) {
+			var i=0;
+			var index = setInterval(function(){
+				for(var j=0;j<arr.length;j++){
+					arr[j].style.background = '#fff';
+				}
+				arr[i].style.background = 'blue';
+				i++;
+				if(i>=arr.length){
+					clearInterval(index);
+					arr[i-1].style.background = '#fff';
+				}
+			},500);
+		}
+		var btn = document.getElementsByTagName('button');
+		for(var i = 0;i<btn.length;i++){
+			btn[i].addEventListener('click',function(){
+				arr = [];
+				if(this.id=="f"){
+					preOrder(box);
+					changeColor(arr);
+				}
+				if(this.id=="m"){
+					inOrder(box);
+					changeColor(arr);
+				}
+				if (this.id == 'a') {
+					postOrder(box);
+					changeColor(arr);
+				}
+			});
+		}
+
+
+/*
+	二叉树的遍历有三种方式，如下：
+（1）前序遍历（DLR），首先访问根结点，然后遍历左子树，最后遍历右子树。简记根-左-右。
+
+（2）中序遍历（LDR），首先遍历左子树，然后访问根结点，最后遍历右子树。简记左-根-右。
+
+（3）后序遍历（LRD），首先遍历左子树，然后遍历右子树，最后访问根结点。简记左-右-根。 
+
+先用数组将节点存储，然后对数组进行遍历
+
+*/
+}
+	</script>
+</body>
+</html>

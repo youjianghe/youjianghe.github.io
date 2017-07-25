@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 25</title>
+	<style>
+		span{cursor: pointer;}
+	</style>
+</head>
+<body>
+	<div id="treeNode">
+		<ul>
+			<li><span>A节点</span>
+				<ul>
+					<li><span>A-1节点</span><ul></ul></li>
+					<li><span>A-1节点</span><ul></ul></li>
+				</ul>
+			</li>
+			<li><span>B节点</span>
+				<ul>
+					<li><span>b-1节点</span><ul>
+						<li><span>b-1-1节点</span><ul></ul></li>
+					</ul></li>
+					<li><span>b-2节点</span><ul></ul></li>
+				</ul>
+			</li>
+			<li><span>C节点</span>
+				<ul>
+					<li><span>c-1节点</span><ul></ul></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div><label for=""><input type="text" value="" placeholder="请输入查找的内容" name="search" id="stext"></label><button type="button" id="search">查询</button> </div>
+	<script>
+		var spanText ='';
+		window.onload = function () {
+			var spans = document.getElementsByTagName('span');
+			Array.prototype.forEach.call(spans,function(span){
+				span.onclick = function(){
+					spanClick(this);
+				}
+				span.onmouseenter = function(){
+					spanMouseEnter(this);
+				}
+				span.onmouseleave = function(){
+					spanMouseLeave(this);
+				}
+
+				// span.onclick = function(){
+				// 	// var dp = this.nextElementSibling;
+				// 	// dp.style.display=='none'?dp.style.display = 'block':dp.style.display = 'none';
+					
+				// 	// console.log(this.nextElementSibling.style.display);
+				// }
+				// span.onmouseenter = function(e){
+				// 	spanText = this.innerHTML;
+				// 	this.innerHTML=spanText+'<sup onclick = add(this)>增加</sup><sup onclick = del(this)>删除</sup>';
+				// }
+				// span.onmouseleave = function(){
+				// 	this.innerHTML = spanText;
+				// }
+			});
+
+			document.getElementById('search').onclick = function(){
+				var respans = document.getElementById('treeNode').getElementsByTagName('span');
+				var spanArray = [];
+				var stext = document.getElementById('stext').value;
+				if(stext===''){alert('请输入查询内容');return false;}
+				Array.prototype.forEach.call(respans,function(span){
+					span.style.color = 'black';
+					if(stext.trim() == span.innerText){
+						spanArray.push(span);
+					}	
+				});
+				if(spanArray.length == 0){alert('没有结果');}else{
+					spanArray.forEach(function(item){
+						item.style.color = 'green';
+						item.parentNode.parentNode.style.display = 'block';
+					});
+				}
+			}
+
+
+		}
+		function spanClick(that){
+			var dp = that.nextElementSibling;
+			dp.style.display=='none'?dp.style.display = 'block':dp.style.display = 'none';
+			console.log(that.nextElementSibling.style.display);
+		}
+		function spanMouseEnter(that){
+			spanText = that.innerHTML;
+			that.innerHTML=spanText+'<sup onclick = add(this)>增加</sup><sup onclick = del(this)>删除</sup>';
+		}
+		function spanMouseLeave(that){
+			that.innerHTML = spanText;
+		}
+		function add(that){
+			console.log(that);
+			var inputText = prompt('请输入节点名称');
+			var li = document.createElement('li');
+			li.innerHTML = '<span onmouseenter=spanMouseEnter(this) onmouseleave = spanMouseLeave(this)>'+inputText+'</span><ul></ul>';
+			console.log(li);
+			that.parentNode.parentNode.parentNode.insertBefore(li,that.parentNode.parentNode);
+			event.stopPropagation();
+			return false;
+		}
+		function del(that){
+			console.log(that);
+			that.parentNode.parentNode.parentNode.removeChild(that.parentNode.parentNode);
+			event.stopPropagation();
+			return false;
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 23</title>
+	<style>
+		.one{display: flex;flex-grow: wrap;flex-flow: 1; width: 1100px;height: 100px;border:1px solid #dcdcdc;background-color: #fff;}
+		.one .two{display: flex;border: inherit;margin: 5px;background-color:#fff;}
+		.one .two .three{display: flex;border: inherit;margin: 5px;background-color:#fff;}
+		.one .two .three .four{display: flex;border: inherit;margin: 5px;background-color:#fff;}
+		.one .two .three .four .five{display: flex;border: inherit;margin: 5px;background-color:#fff;}
+
+	</style>
+</head>
+<body>
+	<div class="one">Supper
+		<div class="two">cm
+			<div class="three">apple
+				<div class="four">pear</div>
+				<div class="four">pig</div>
+				<div class="four">cola</div>
+				<div class="four">soccer</div>
+			</div>
+			<div class="three">phone</div>
+			<div class="three">null
+				<div class="four">book</div>
+				<div class="four">school</div>
+			</div>
+		</div>
+		<div class="two">note
+			<div class="three">hummn
+				<div class="four">code</div>
+				<div class="four">operate</div>
+				<div class="four">man</div>
+			</div>
+			<div class="three">program
+				<div class="four">bement
+					<div class="five">cat</div>
+				</div>
+				<div class="four">glass</div>
+			</div>
+		</div>
+		<div class="two">flash</div>
+	</div>
+	<button type="button" id="pre">先序遍历</button>
+	<button type="button" id="in">中序遍历</button>
+	<button type="button" id="post">后序遍历</button>
+	<div><input type="text" name="text" id="input"><input type="button" name="buttom" value="查询" id="search"></div>
+	<script>
+		window.onload = function () {
+			var one = document.getElementsByClassName('one')[0];
+			var arr = [];
+			var input = document.getElementById('input');
+			var searchArr = []
+			//先序遍历
+			function preOrder(node){
+				if(node!=null){
+					arr.push(node);
+					//=====此循环建议用forEach来做，有逼格！
+					for(var i = 0;i<(node.children).length;i++){
+						preOrder(node.children[i]);
+					}
+				}
+			}
+			//中序遍历？？？？？？
+			function inOrder(node){
+				if(node!=null){
+					for(var i = 0;i<(node.children).length;i++){
+						preOrder(node.children[i]);
+						arr.push(node);
+					}
+				}
+	
+			}
+			//后序遍历
+			function postOrder(node){
+				if(node!=null){
+					for(var i = 0;i<(node.children).length;i++){
+						preOrder(node.children[i]);
+					}
+					arr.push(node);
+				}
+			}
+
+			function changerColor(array){
+				if (array.length>0) {
+					var n =0;
+					var index = setInterval(function(){
+						for(var i=0;i<array.length;i++){
+							array[i].style.background = '#fff';
+						}
+						if(n>(array.length-1)){
+							clearInterval(index);
+							return false;//此处需药注意放置地方
+						}
+						array[n].style.background="red";
+						n++;
+					},500);
+				}
+			}
+			
+			function showText(array,text){
+				for(var i = 0;i<array.length;i++){
+					array[i].style.background = "#ffffff";
+					if(text.toLowerCase() == array[i].innerText.split('\n')[0].toLowerCase()){
+						//\n换行符，通过换行符将字符组成数组，取第一个，不区分大小写，没有实现去除空格
+						searchArr.push(array[i]);
+					}
+					console.log(array[i].innerText.split('\n')[0]);
+				}
+
+				for(var j = 0;j<searchArr.length;j++){
+					searchArr[j].style.background = 'blue';
+				}
+				if(searchArr.length<1){
+					alert('没有查询到结果');
+				}
+			}
+
+			document.getElementById('pre').onclick = function(){
+	
+				arr = [];
+				preOrder(one);
+				console.log(arr);
+				changerColor(arr);
+			}
+			document.getElementById('in').onclick = function(){
+				arr = [];
+				inOrder(one)
+				changerColor(arr);
+			}
+			document.getElementById('post').onclick = function(){
+				arr = [];
+				postOrder(one)
+				changerColor(arr);
+			}
+			document.getElementById('search').onclick = function(){
+				arr = [];
+				searchArr = [];
+				var text = input.value;
+				if (text=='') {alert('请输入');return false;}
+				preOrder(one);
+				showText(arr,text);
+			}
+		}
+	</script>
+</body>
+</html>

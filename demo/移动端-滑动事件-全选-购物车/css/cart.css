@@ -1,0 +1,42 @@
+
+.back {width:100%;height:45px;overflow:hidden;line-height:45px;font-family:"Microsoft YaHei";font-size:16px;color:#fff;background-color:#f4769b;}
+.back .left {color:#FFF;}
+.back .left img {width:5.47%;vertical-align:text-bottom;margin:0;padding:0;margin-left:2.66%;margin-right:2.66%;}
+.back .right{display: inline-block;float: right;height: 45px;margin-right: 15px;position: relative;}
+.back .right img{height: 100%;}
+.back .right span{display: inline-block;position: absolute;left: 5px;top: 5px;width: 16px;height: 16px;line-height: 12px;text-align: center; border-radius: 50%;border: 1px solid #ffffff; font-size:10px;color: #ffffff; background-color: red;background: url(../img/iconfont-kongxinyuan.png) no-repeat;background-size: 100%;}
+
+.cart-content{}
+.cart-content h3{height: 63px;line-height: 60px;font-size:1.1em;margin:0;color: #555555;border-bottom: 3px solid #f2f2f2;font-family: "Microsoft YaHei"}
+.cart-content h3 input{width: 20px;height: 0px; margin:0; margin:20px 10px 20px 0;float: left;outline: none;box-shadow: none;background: url(../img/iconfont-iconkongxin.png);}
+.cart-content h3 input:focus{outline: none;box-shadow: none;}
+.cart-content h3 label{display: inline-block;margin:0;}
+.cart-content h3 img{position: absolute;top:20px;left:15px;width: 20px;height: 20px;}
+.cart-content .item{padding:20px 15px;height: 160px; border-bottom: 2px solid #f2f2f2;position: relative;overflow: hidden;}
+.cart-content .item .checked-self{padding: 0;width: 20px;height: 20px;}
+.cart-content .item .checked-self label{display: inline-block;width: 20px;height: 20px;margin: 0;}
+.cart-content .item .checked-self input{width: 20px;height: 0px; margin:0;}
+.cart-content .item .item-pic{padding-right: 0;overflow: hidden;}
+.cart-content .item .item-pic img{width: 100%;}
+.cart-content .item .item-info{padding-right: 0;}
+.cart-content .item .item-info .item-title{padding: 0;font-size: 1.1em;line-height: 1.2em; color: #555555;height: 2.4em;overflow: hidden;font-family: "Microsoft YaHei"}
+.cart-content .item .item-info .item-title a{color: #555555;}
+.cart-content .item .item-info .item-other{padding: 0;margin-top: 30px;}
+.cart-content .item .item-info .item-other span{display: inline-block;float: left;font-size: 1.1em;line-height: 30px;font-weight: 700; font-family: "Microsoft Yahei";color: #f4769b}
+.cart-content .item .item-info .item-other .input-group{width: 50%;float: right;}
+.cart-content .item .item-info .item-other .input-group .jianhao{background: url(../img/iconfont-jianhao.png) no-repeat center;background-size: 60%;font-size: 0}
+.cart-content .item .item-info .item-other .input-group .jiahao{background: url(../img/iconfont-jiahao.png) no-repeat center;background-size: 60%;font-size: 0}
+.cart-content .item .item-info .item-other .input-group input{height: 30px;padding: 0;margin: 0;}
+
+.cart-content .item .slide-wrap{position: relative;overflow: hidden;height: 160px;}
+.cart-content .item .del-order{position: absolute;height: 160px;width: 42%; top: 0px;bottom:0;right:-42%;z-index: 2}
+.cart-content .item .del-order a{display: inline-block; height: 160px;width: 50%;line-height:160px;text-align: center;font-size:1.2em;font-family: "Microsoft Yahei"}
+.cart-content .item .del-order a:nth-child(1){background-color: #cccccc;float: left;color: #555555}
+.cart-content .item .del-order a:nth-child(2){background-color: #f4769b;float: left;color: #ffffff}
+
+.cart-footer{position: fixed;left: 0;bottom: 0;right: 0;height: 60px;font-family: "Microsoft YaHei";z-index: 2}
+.cart-footer .left{width: 50%;height: 60px;background-color: #ffffff;border-top:1px solid #f2f2f2;}
+.cart-footer .left{width: 50%;height: 60px;line-height: 60px;float: left;font-size: 1.3em;color:#555555;text-align: center; background-color: #ffffff;border-top:1px solid #f2f2f2;}
+.cart-footer .left span{color: #f4769b}
+.cart-footer .right{width: 50%;height: 60px;text-align: center;float: left;background-color: #f4769b;}
+.cart-footer .right a{color: #ffffff;background-color:#f4769b;width: 100%;height: 60px;line-height: 60px;font-size: 1.5em;font-weight: 500; margin: 0;padding: 0;border:none; }

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 19</title>
+	<style>
+	#box{width: 600px;height: 100px;}
+	#box div{width: 10px;display: inline-block;*zoom:1;*display:inline;background-color: #a61407;}
+	</style>
+</head>
+<body>
+	<label><input type="text" id="num"></label>
+	<button class="leftin">左侧入</button><button class="rightin">右侧入</button><button class="leftout">左侧出</button><button class="rightout">右侧出</button>
+	<button class="initData">随机30组数据</button><button class="paixu">排序</button>
+	<div id="box"></div>
+	<script>
+		var box = document.getElementById('box');
+		var num = document.getElementById('num');
+		var data = new Array();
+		//监听事件兼容
+		function addEvent(dom,type,arg){
+			if(window.addEventListener){
+				dom.addEventListener(type,arg);//w3c监听事件，IE9以上支持
+			}else{
+				dom.attachEvent('on'+type,arg);//IE监听事件
+			}
+		}
+		//输入验证
+		function regNum(arg){
+			var flag =0;
+			var arr = arg.match(/[0-9]+/);
+			if (arr == null){
+				flag = 1;
+			}else{
+				var n = parseInt(arg.replace(/\s+/g,""));//g在这里表示替换所有
+				n<10||n>100?flag=2:flag=n
+			}
+			return flag;//flag =1 表示输入类型为非数字或为空，2表示数字超出范围;n的值需要传递给下一步使用
+		}
+		//输入提示
+		function tips(){
+			var f = regNum(num.value);
+			if(f == 1){
+				alert('请输入数字');
+			}else if(f == 2){
+				alert('请输10-100的数字');
+			}
+			return f;
+		}
+		//图像绘制 (绘制图像可以使用插入节点或者数组两种方式)
+		function renderChart(){
+			var html='<div style="height:120px;width:0px"></div>';
+			for(var i = 0;i<data.length;i++){
+				html += '<div style="height:'+data[i]+'px"></div>';
+			}
+			box.innerHTML = html;
+		}
+		//随机生成一组data数据
+		function initData(){
+			data=[];
+			for(var i=0;i<30;i++){
+				data.push(parseInt(Math.random()*100));
+			}
+			renderChart();
+		}
+		initData();		
+		//事件监听
+		addEvent(document,'click',function(event){
+			var e = event||window.event;//window.event兼容IE8及以下
+			var ele = e.target||e.srcElement;//target chrome,firfox支持，srcElement chrome,IE8及以下支持
+			if(ele.className == 'leftin'){
+				var f = tips()
+				if(f==1||f==2) return;//输入不合格返回
+				num.value = '';
+				if (data.length>=60) {alert('最能只能输60个');return}
+				data.unshift(f);
+				renderChart();
+				console.log(data.length);
+			}	
+			if(ele.className == 'rightin'){
+				var f = tips()
+				if(f==1||f==2) return;//输入不合格返回
+				num.value = '';
+				if (data.length>=60) {alert('最能只能输60个');return}
+				data.push(f);
+				renderChart();
+				console.log(data);
+			}	
+			if(ele.className == 'leftout'){
+				if(data.shift()!=undefined){renderChart();}	
+			}	
+			if(ele.className == 'rightout'){
+				if(data.pop()!=undefined){renderChart();}	
+			}
+			if(ele.className == 'initData'){//随机30组数据
+				initData();
+			}
+			if (ele.className == 'paixu') {//排序
+				//data.sort(function(a,b){return a-b});
+			var index = 0;
+			var s = setInterval(function(){ //通过setInterval来代替for循环，实现暂停
+				index+=1;
+				if(index>=data.length){clearInterval(s);}
+				for(var j =data.length;j>0;j--){
+						if(data[j]<data[j-1]){
+						var temp = data[j];
+						data[j] = data[j-1];
+						data[j-1] = temp;
+					}
+				}
+				renderChart();
+				console.log(data);
+				console.log(index)
+			},1000);
+
+			}//if
+		});
+
+	</script>
+</body>
+</html>

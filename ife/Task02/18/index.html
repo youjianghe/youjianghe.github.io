@@ -1,0 +1,80 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 18</title>
+    <style>
+        #box{width: 100%;overflow: hidden;height: 50px;}
+        #box div{float: left;width: 50px;height: 50px;line-height: 50px; margin-right: 10px;background-color: red;text-align: center;}
+
+    </style>
+  </head>
+<body>
+  <label><input type="text" id="text"></label><button class="leftin">左侧入</button><button class="rightin">右侧入</button><button class="leftout">左侧出</button><button class="rightout">右侧出</button>
+  
+  <div id="box"></div>
+  <script>
+      var box = document.getElementById('box');
+      var text = document.getElementById('text');
+      document.body.addEventListener('click',function(e){
+        var m = e.target.nodeName;
+        var n = e.target.className;
+        if(m!='BUTTON') return;
+        var html,flag;
+        console.log(e);
+        function isNum(){
+        	flag = text.value.match('[0-9]+')
+        	if(!flag){alert('请输入数字');return true;}
+        }
+        //左入
+        if (n=='leftin') {
+    		if(isNum()){return;};
+   			var newnode = document.createElement('div');
+   			newnode.innerText = text.value;
+   			console.log(box.childNodes.length);
+   			console.log(box.childNodes[0]);
+   			box.insertBefore(newnode,box.childNodes[0]); //不需要判断是否存在子节点？ childNodes[0] 可以为underfine？ 
+   			text.value = '';
+        } 
+        //右侧入
+        if (n=='rightin') {
+        	if(isNum()){return;};
+        	var newnode = document.createElement('div');
+        	//newnode.onclick = removeSelf;
+            newnode.innerText = text.value;
+            box.appendChild(newnode);
+            text.value = '';
+        }
+        //左侧出
+        if (n=='leftout') {
+        	if(box.childNodes.length==0) return;
+        	var tips = '确认删除++'+box.firstChild.innerText;
+      		if(!confirm(tips)) return;
+        	if (box.childNodes.length>0) {box.removeChild(box.firstChild);}
+        }  
+         //右侧出
+        if (n=='rightout') {
+        	if(box.childNodes.length==0) return;
+        	var tips = '确认删除++'+box.lastChild.innerText;
+      		if(!confirm(tips)) return;
+        	if (box.childNodes.length>0) {box.removeChild(box.lastChild);}
+        }
+      //appendChild   inserbefore removeChild
+      });
+
+     function removeSelf(e){
+     	//box.removeChild(e.target.nodeName);
+     	
+     }
+    div = box.getElementsByTagName('div');
+  	box.addEventListener('click',function(e){
+  		console.log(e);
+  		//删除无解 ？？？？？？？？？？？？？？？？？？？？？？？？？？
+
+   	});
+     
+
+  </script>
+ 
+</body>
+</html>

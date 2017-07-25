@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+	<meta charset="UTF-8">
+	<title>IFE JavaScript Task 24</title>
+	<style>
+		ul>li{margin: 20px 0;font-size: 24px;width: 200px; line-height: 24px;cursor: pointer;}
+		.active{background-color: red;}
+	</style>
+</head>
+<body>
+	<div id="tree">
+		<ul><h5>总结点</h5>
+			<li>
+				<span>A节点</span>
+				<ul>
+					<li><span>B节点</span>
+						<ul>
+							<li><span>C节点</span></li>
+							<li><span>C节点</span></li>
+							<li><span>C节点</span></li>
+						</ul>
+					</li>
+					<li><span>B节点</span></li>
+					<li><span>B节点</span></li>
+				</ul>
+			</li>
+			<li>
+				<span>A节点</span>
+				<ul>
+					<li><span>B节点</span></li>
+					<li><span>B节点</span></li>
+					<li><span>B节点</span></li>
+				</ul>
+			</li>
+			<li>
+				<span>A节点</span>
+			</li>
+		</ul>
+	</div>
+<script>
+window.onload = function() {
+	var tree = document.getElementById('tree');
+	tree.addEventListener('click',function(e){
+		if(e.target.tagName == "SPAN"){
+			var c = e.target.classList;
+			console.log(e);
+			c.toggle('active');
+			console.log(e.target.children.length);
+			//插入删除按钮
+			if(e.target.children.length == 0){
+				var b1 = document.createElement("b");
+				var b2 = document.createElement("b");
+				b1.innerText = '删除';
+				b1.addEventListener('click',function(e){
+					deleteAll(e);
+				});
+				b2.innerText = '插入';
+				b2.style.color
+				b2.addEventListener('click',function(e){
+					insertDom(e);
+				});
+				e.target.appendChild(b1);
+				e.target.appendChild(b2);
+
+			}else{
+				var b1a = e.target.children[0];
+				var b2a = e.target.children[1]
+				e.target.removeChild(b1a);
+				e.target.removeChild(b2a);
+			}
+
+		}
+		e.preventDefault();
+	});
+	//删除节点
+	function deleteAll(arg){
+		arg.target.parentNode.parentNode.parentNode.removeChild(arg.target.parentNode.parentNode);
+	}
+	function insertDom(arg){
+		var input = prompt('请输入节点名称');
+		if(input == null){return false;}
+		if(input == ''){alert('请输入内容');return false;}
+		var li = document.createElement('li');
+		li.innerHTML = '<span>'+input+'</span>';
+		arg.target.parentNode.parentNode.appendChild(li);
+		
+	}
+}
+</script>
+		
+</body>
+</html>

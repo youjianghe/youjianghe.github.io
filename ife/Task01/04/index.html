@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>第一阶段第四任务</title>
+	<style>
+		body{position: absolute;top:50%;left:50%;-ms-transform:translate(-50%,-50%);/* IE9支持 */-webkit-transform:translate(-50%,-50%);-moz-transform:translate(-50%,-50%);-o-transform:translate(-50%,-50%);}
+		.box{width: 400px;height: 200px;background-color: #eee;overflow: hidden;position: relative;}
+		.box .left-circle,.box .right-circle{position: absolute;width: 100px;height: 100px;border-radius:50%;background-color: #fc0}
+		.box .left-circle{top: -50px;left:-50px;}
+		.box .right-circle{bottom: -50px;right:-50px;}
+		/* border-radius兼容问题 */
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="left-circle"></div>
+		<div class="right-circle"></div>
+	</div>
+</body>
+</html>
